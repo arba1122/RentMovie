@@ -18,5 +18,26 @@ class Program
 
         try
         {
-           
+            connection.Open();
+            Console.WriteLine("Ansluten till databasen!");
+
+            // Skapa en SQL-fråga
+            string query = "SELECT * FROM Customer";
+
+            // Skapa ett kommando
+            using IDbCommand command = connection.CreateCommand();
+            command.CommandText = query;
+
+            // Exekvera kommandot och hämta resultat
+            using IDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                Console.WriteLine($"ID: {reader["Id"]}, Namn: {reader["Name"]}, Email: {reader["Email"]}");
+            }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Fel vid anslutning: " + ex.Message);
+        }
+    }
+}
